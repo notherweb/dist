@@ -4,7 +4,7 @@
   },
   "all":[{
     "version":"1.0.0",
-    "features":["Create XMLHttpRequest","Tracks GeoLocation lat, long and name","Size of a window for handle elements"," Create element fonts","Load a function on window."],
+    "features":["Create XMLHttpRequest","Tracks GeoLocation lat, long and name","Size of a window for handle elements"," Create element fonts","Load a function on window.","Create a custom alerts."],
     "more":["Using functions (Nother, nother) or signs ($, $n)"],
     "date": "09/01/2021"
   }],
