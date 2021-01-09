@@ -11,23 +11,24 @@
    * Size of a window for handle elements,
    * Create element fonts,
    * Load a function on window.
+   * Create a custom alerts.
 
  # More features :
    * Using functions (Nother, nother) or signs ($, $n)
 */
 /*
-   if ("undefined" == typeof Nother) throw new TypeError("There have requires Nother js.");
+   if ("undefined" == typeof Nother) throw new TypeError("There have requires Nother query.");
 */
 let $n;
 let $;
 let Nother, nother;
-let nextraVersion;
+let NotherVersion;
 
 (function(window) {
   Nother = function() {
     return true;
   };
-  $n = new Nother(), $ = new Nother(), nother = new Nother(), notherVersion = "1.0.0";
+  $n = new Nother(), $ = new Nother(), nother = new Nother(), NotherVersion = "1.0.0";
   (function() {
     this.ajax = function(ajax_option) {
       let ajax_setting;
@@ -159,7 +160,7 @@ let nextraVersion;
                     success(section);
                   }
                 } else {
-                  throw new TypeError(ajax_request.status+" Error!! Somethings is broken or error. ", ajax_request);
+                  console.error(ajax_request.status+" Error!! Somethings is broken or error. ", ajax_request);
                 }
               }
             } else {
@@ -200,7 +201,7 @@ let nextraVersion;
             console.error(new TypeError('Geolocation is not supported by your browser.'));
           }
           return navigator.geolocation.getCurrentPosition(function (position) {
-            let req = $n.ajax({
+            let req = new Nother().ajax({
               method: "GET",
               url: "https://us1.locationiq.com/v1/reverse.php?key=pk.841faf5c95235f9459953b664d1ec98c&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&format=json",
               section: "object"
@@ -343,6 +344,166 @@ let nextraVersion;
       };
       return fn;
     };
+    this.alert = function( {
+      title, align, message, button
+    }) {
+      let styles = document.createElement("style");
+      styles.type = "text/css";
+      styles.innerHTML = `
+      @import url("https://fonts.googleapis.com/css?family=Ubuntu");
+      alert, alert * {
+      font-family: "Ubuntu";
+      }
+      alert {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgb(0,0,0,0.3);
+      color: #333;
+      text-align: left;
+      }
+      alert > top {
+      position: fixed;
+      top: 20px;
+      left: 0;
+      right: 0;
+      }
+      alert > middle {
+      position: fixed;
+      top: calc(40% - 2em);
+      left: 0;
+      right: 0;
+      }
+      alert > bottom {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      }
+      alert > top, alert > middle, alert > bottom {
+      width: 85%;
+      height: auto;
+      padding: 20px;
+      background: #fff;
+      margin: auto;
+      animation: 0.15s alert-fade-in linear;
+      }
+      alert top > title, alert middle > title, alert bottom > title {
+      font-size: 20px;
+      display: block;
+      margin-bottom: 10px;
+      }
+      alert top > message, alert middle > message, alert bottom > message {
+      font-size: 17px;
+      display: block;
+      margin-bottom: 10px;
+      }
+      alert top > button, alert middle > button, alert bottom > button {
+      font-size: 17px;
+      width: auto;
+      height: auto;
+      padding: 7px;
+      padding-left: 15px;
+      padding-right: 15px;
+      background: #f5072d;
+      color: white;
+      border-radius: 0.3rem;
+      margin: auto;
+      border: none;
+      outline: none;
+      float: right;
+      }
+      top, bottom, middle {
+      border-radius: 0.3rem;
+      }
+
+      @keyframes alert-fade-in {
+      from {
+      opacity: 0;
+      transform: scale(0.6);
+      }
+      to {
+      opacity: 1;
+      transform: scale(1.0);
+      }
+      }
+      @keyframes alert-fade-out {
+      from {
+      opacity: 1;
+      transform: scale(1.0);
+      }
+      to {
+      opacity: 0;
+      transform: scale(0.6);
+      }
+      }
+      `;
+      if (title && message && button && align) {
+        let alertDiv = document.createElement("alert");
+        let alertTop = document.createElement("top");
+        let alertMiddle = document.createElement("middle");
+        let alertBottom = document.createElement("bottom");
+        let alertTitle = document.createElement("title");
+        let alertMessage = document.createElement("message");
+        let alertButton = document.createElement("button");
+
+        alertTitle.innerHTML = title;
+        alertMessage.innerHTML = message;
+        alertButton.innerHTML = button;
+        alertButton.onclick = function() {
+          if (align == "top") {
+            alertTop.style.animation = "0.15s alert-fade-out linear";
+            setTimeout(function() {
+              alertDiv.remove();
+            }, 151);
+          } else if (align == "center" || align == null) {
+            alertMiddle.style.animation = "0.15s alert-fade-out linear";
+            setTimeout(function() {
+              alertDiv.remove();
+            }, 151);
+          } else if (align == "bottom") {
+            alertBottom.style.animation = "0.15s alert-fade-out linear";
+            setTimeout(function() {
+              alertDiv.remove();
+            }, 151);
+          } else {
+            throw new TypeError("Alert aligns must be top|middle|bottom, but not found.");
+          }
+        }
+        let onloads = function() {
+          document.body.appendChild(alertDiv);
+          if (align == "top") {
+            alertDiv.appendChild(alertTop);
+            alertTop.appendChild(alertTitle);
+            alertTop.appendChild(alertMessage);
+            alertTop.appendChild(alertButton);
+          } else if (align == "center" || align == null) {
+            alertDiv.appendChild(alertMiddle);
+            alertMiddle.appendChild(alertTitle);
+            alertMiddle.appendChild(alertMessage);
+            alertMiddle.appendChild(alertButton);
+          } else if (align == "bottom") {
+            alertDiv.appendChild(alertBottom);
+            alertBottom.appendChild(alertTitle);
+            alertBottom.appendChild(alertMessage);
+            alertBottom.appendChild(alertButton);
+          } else {
+            throw new TypeError("Alert aligns must be top|middle|bottom, but not found.");
+          }
+        };
+        if (document.body) onloads()
+        else window.onload = onloads()
+      } else {
+        throw new TypeError("Failed to create alerts, 4 arguments must be required.");
+      }
+      let onl = function() {
+        document.head.appendChild(styles);
+      };
+      if (document.body) onl()
+      else window.onload = onl;
+    };
     this.load = function (reg) {
       if ("function" === typeof reg) {
         if (document.body) {
@@ -358,14 +519,13 @@ let nextraVersion;
     }
   }).call(Nother.prototype);
   (function() {
-    $.ajax({
-      url: "https://nother.github.io/dist/query@data/update.json",
-      method: "GET"
-    }).onload(function (data) {
+    fetch("https://notherweb.github.io/dist/query@data/update.json").then(function (arg) {
+      return arg.json();
+    }).then(function (arg) {
       let latestV = JSON.parse(data.responseText).latest.version;
       if (data.responseText) {
-        if (latestV >= nextraVersion) {
-          return console.log("new VersionUpdate: A new version "+latestV+" is available. Use the new version for explore more. Your current version is Nother query "+nextraVersion);
+        if (latestV >= NotherVersion) {
+          return console.log("new VersionUpdate: A new version "+latestV+" is available. Use the new version for explore more. Your current version is Nother query "+NotherVersion);
         }
       }
     });
