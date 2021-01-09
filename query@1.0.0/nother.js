@@ -359,7 +359,7 @@ let nextraVersion;
   }).call(Nother.prototype);
   (function() {
     $.ajax({
-      url: "https://nother.github.io/dist/query@1.0.0/update.json",
+      url: "https://nother.github.io/dist/query@data/update.json",
       method: "GET"
     }).onload(function (data) {
       let latestV = JSON.parse(data.responseText).latest.version;
