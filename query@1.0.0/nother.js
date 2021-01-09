@@ -1,7 +1,7 @@
 /*
-   Name : Nextra query (js)
+   Name : Nother query (js)
    Version : 1.0.0 (first)
-   Powered by : Nextra, llc
+   Powered by : Nother, llc
    Licensed under : Apache 2.0
    Created by : mohammad sefatullah on 9, Jan 2021
 
@@ -13,21 +13,21 @@
    * Load a function on window.
 
  # More features :
-   * Using functions (Nextra, nextra) or signs ($, $n)
+   * Using functions (Nother, nother) or signs ($, $n)
 */
 /*
-   if ("undefined" == typeof Nextra) throw new TypeError("There have requires Nextra query.");
+   if ("undefined" == typeof Nother) throw new TypeError("There have requires Nother js.");
 */
 let $n;
 let $;
-let Nextra, nextra;
+let Nother, nother;
 let nextraVersion;
 
 (function(window) {
-  Nextra = function() {
+  Nother = function() {
     return true;
   };
-  $n = new Nextra(), $ = new Nextra(), nextra = new Nextra(), nextraVersion = "1.0.0";
+  $n = new Nother(), $ = new Nother(), nother = new Nother(), notherVersion = "1.0.0";
   (function() {
     this.ajax = function(ajax_option) {
       let ajax_setting;
@@ -200,7 +200,7 @@ let nextraVersion;
             console.error(new TypeError('Geolocation is not supported by your browser.'));
           }
           return navigator.geolocation.getCurrentPosition(function (position) {
-            let req = new Nextra().ajax({
+            let req = $n.ajax({
               method: "GET",
               url: "https://us1.locationiq.com/v1/reverse.php?key=pk.841faf5c95235f9459953b664d1ec98c&lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&format=json",
               section: "object"
@@ -356,28 +356,27 @@ let nextraVersion;
         throw new TypeError("Cannot read property load() of undefined");
       }
     }
-  }).call(Nextra.prototype);
+  }).call(Nother.prototype);
   (function() {
     $.ajax({
-      //https://nextra.github.io/dist/query/update.json
-      url: "$_all/nextra.query-update.json",
+      url: "https://nother.github.io/dist/query@1.0.0/update.json",
       method: "GET"
     }).onload(function (data) {
       let latestV = JSON.parse(data.responseText).latest.version;
       if (data.responseText) {
         if (latestV >= nextraVersion) {
-          return console.log("new VersionUpdate: A new version "+latestV+" is available. Use the new version for explore more. Your current version is Nextra query "+nextraVersion);
+          return console.log("new VersionUpdate: A new version "+latestV+" is available. Use the new version for explore more. Your current version is Nother query "+nextraVersion);
         }
       }
     });
   }());
   if (typeof module === 'object' && typeof module.exports === 'object') {
-    module.exports = Nextra;
+    module.exports = Nother;
   } else if (typeof define === 'function' && define.amd) {
     define([], function () {
-      return Nextra;
+      return Nother;
     });
-  } else if (!window.Nextra) {
-    window.Nextra = Nextra;
+  } else if (!window.Nother) {
+    window.Nother = Nother;
   }
 } (typeof window !== 'undefined' ? window: this));
