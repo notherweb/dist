@@ -519,13 +519,16 @@ let NotherVersion;
     }
   }).call(Nother.prototype);
   (function() {
-    fetch("https://notherweb.github.io/dist/query@data/update.json").then(function (arg) {
-      return arg.json();
-    }).then(function (arg) {
+    $n.ajax({
+      url: "https://notherweb.github.io/dist/query@data/update.json",
+      method: "GET",
+    }).onload(function (data) {
       let latestV = JSON.parse(data.responseText).latest.version;
       if (data.responseText) {
-        if (latestV >= NotherVersion) {
-          return console.log("new VersionUpdate: A new version "+latestV+" is available. Use the new version for explore more. Your current version is Nother query "+NotherVersion);
+        if (latestV != NotherVersion) {
+          return console.log("new VersionUpdate: A latest version "+latestV+" is available. Use the new version for explore more. Your current version is Nother query "+NotherVersion);
+        } else {
+          // no updates
         }
       }
     });
